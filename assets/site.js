@@ -170,7 +170,7 @@ function initPageTransitions() {
   const wipe = document.createElement("div");
   wipe.className = "page-wipe";
   wipe.setAttribute("aria-hidden", "true");
-  wipe.innerHTML = logoSvgString("logo-mark logo-mark-animated page-wipe-logo");
+  wipe.innerHTML = `<div class="page-wipe-wordmark"><span>Monkland</span><em>Cheese and Dairy</em></div>`;
   document.body.append(wipe);
 
   document.addEventListener("click", (event) => {
@@ -192,21 +192,6 @@ function initPageTransitions() {
       window.location.href = url.href;
     }, 300);
   });
-}
-
-function logoSvgString(className = "logo-mark") {
-  return `<svg class="${className}" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle class="logo-field" cx="48" cy="48" r="45"></circle>
-    <circle class="logo-orbit logo-orbit-outer" cx="48" cy="48" r="37"></circle>
-    <circle class="logo-orbit logo-orbit-inner" cx="48" cy="48" r="25"></circle>
-    <path class="logo-ridge" d="M24 45.5C31.5 35.5 42 32.5 51.5 40.8C58.2 46.7 65.7 47.2 73 38.6"></path>
-    <path class="logo-wedge" d="M27 59.2C38.7 48.2 52.6 41.9 69.2 39.4C73.4 49.7 72.7 59.4 66.6 67.4C51 67.3 37.8 64.6 27 59.2Z"></path>
-    <path class="logo-slice" d="M34.2 57.6C44.6 53.3 55 52.2 65.4 54.4"></path>
-    <circle class="logo-curd logo-curd-a" cx="55.2" cy="51.4" r="2.4"></circle>
-    <circle class="logo-curd logo-curd-b" cx="62.2" cy="59.5" r="1.8"></circle>
-    <circle class="logo-curd logo-curd-c" cx="46.2" cy="58.4" r="1.6"></circle>
-    <path class="logo-monogram" d="M31.5 67.2V29.7L48 48.4L64.5 29.7V67.2"></path>
-  </svg>`;
 }
 
 function initFilters() {

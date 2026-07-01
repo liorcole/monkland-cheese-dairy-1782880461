@@ -82,22 +82,36 @@ body.is-nav-open {
     inset 0 0 0 78px rgba(247, 243, 233, 0.025);
 }
 
-.page-wipe-logo {
+.page-wipe-wordmark {
   position: absolute;
-  width: 84px;
-  height: 84px;
+  display: grid;
+  justify-items: center;
+  color: var(--whey);
+  font-family: var(--serif);
+  line-height: 0.9;
   opacity: 0;
-  transform: scale(0.88);
+  transform: translateY(8px);
   transition: opacity 240ms var(--ease), transform 420ms var(--ease);
+}
+
+.page-wipe-wordmark span {
+  font-size: clamp(36px, 5vw, 70px);
+  font-weight: 600;
+}
+
+.page-wipe-wordmark em {
+  color: var(--yolk);
+  font-size: clamp(21px, 3vw, 40px);
+  font-style: italic;
 }
 
 .page-wipe.is-active {
   clip-path: circle(150% at var(--wipe-x, 50%) var(--wipe-y, 50%));
 }
 
-.page-wipe.is-active .page-wipe-logo {
+.page-wipe.is-active .page-wipe-wordmark {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0);
 }
 
 .logo-loader {
@@ -116,7 +130,7 @@ body.is-nav-open {
 .logo-loader-card {
   display: grid;
   justify-items: center;
-  gap: 18px;
+  gap: 20px;
   transform: translateY(0);
   transition: transform 620ms var(--ease);
 }
@@ -127,16 +141,29 @@ body.is-nav-open {
   color: var(--charcoal);
   font-family: var(--serif);
   line-height: 0.9;
+  text-align: center;
 }
 
 .loader-wordmark span {
-  font-size: 34px;
+  font-size: clamp(39px, 5.6vw, 72px);
   font-weight: 600;
 }
 
 .loader-wordmark em {
-  font-size: 23px;
+  color: var(--rind);
+  font-size: clamp(24px, 3.3vw, 43px);
   font-style: italic;
+}
+
+.logo-wordmark-animated span,
+.logo-wordmark-animated em {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: wordmark-rise 820ms var(--ease) forwards;
+}
+
+.logo-wordmark-animated em {
+  animation-delay: 120ms;
 }
 
 .loader-rule {
@@ -238,153 +265,26 @@ button {
 }
 
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-width: 194px;
+  min-width: 220px;
 }
 
-.brand-mark {
-  position: relative;
-  display: block;
-  width: 46px;
-  aspect-ratio: 1;
-  flex: 0 0 auto;
-  filter: drop-shadow(0 8px 16px rgba(36, 33, 28, 0.13));
-}
-
-.logo-mark {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.logo-field {
-  fill: var(--charcoal);
-}
-
-.logo-orbit,
-.logo-ridge,
-.logo-slice,
-.logo-monogram {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.logo-orbit-outer {
-  stroke: var(--yolk);
-  stroke-width: 2.2;
-}
-
-.logo-orbit-inner {
-  stroke: rgba(247, 243, 233, 0.34);
-  stroke-width: 1.4;
-}
-
-.logo-ridge {
-  stroke: var(--yolk);
-  stroke-width: 3.2;
-}
-
-.logo-wedge {
-  fill: var(--whey);
-}
-
-.logo-slice {
-  stroke: var(--rind);
-  stroke-width: 2.1;
-}
-
-.logo-curd {
-  fill: var(--butter);
-}
-
-.logo-monogram {
-  stroke: var(--whey);
-  stroke-width: 4.2;
-}
-
-.brand:hover .logo-orbit-outer,
-.footer-brand:hover .logo-orbit-outer {
-  stroke: var(--butter);
-}
-
-.logo-mark-animated {
-  width: 92px;
-  height: 92px;
-  filter: drop-shadow(0 22px 34px rgba(36, 33, 28, 0.16));
-}
-
-.logo-mark-animated .logo-field {
-  transform-origin: 48px 48px;
-  animation: logo-field-breathe 1800ms var(--ease) infinite;
-}
-
-.logo-mark-animated .logo-orbit,
-.logo-mark-animated .logo-ridge,
-.logo-mark-animated .logo-slice,
-.logo-mark-animated .logo-monogram {
-  stroke-dasharray: 240;
-  stroke-dashoffset: 240;
-  animation: logo-draw 1500ms var(--ease) forwards;
-}
-
-.logo-mark-animated .logo-orbit-inner {
-  animation-delay: 120ms;
-}
-
-.logo-mark-animated .logo-ridge {
-  animation-delay: 260ms;
-}
-
-.logo-mark-animated .logo-slice {
-  animation-delay: 420ms;
-}
-
-.logo-mark-animated .logo-monogram {
-  animation-delay: 520ms;
-}
-
-.logo-mark-animated .logo-wedge {
-  transform-origin: 48px 54px;
-  opacity: 0;
-  transform: scale(0.92) rotate(-2deg);
-  animation: logo-wedge-in 850ms var(--ease) 360ms forwards;
-}
-
-.logo-mark-animated .logo-curd {
-  opacity: 0;
-  transform-origin: center;
-  animation: logo-curd-in 760ms var(--ease) forwards;
-}
-
-.logo-mark-animated .logo-curd-a {
-  animation-delay: 640ms;
-}
-
-.logo-mark-animated .logo-curd-b {
-  animation-delay: 760ms;
-}
-
-.logo-mark-animated .logo-curd-c {
-  animation-delay: 880ms;
-}
-
-.brand-type {
+.brand-wordmark {
   display: grid;
-  line-height: 1;
+  line-height: 0.92;
 }
 
-.brand-type span {
+.brand-wordmark strong {
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 600;
 }
 
-.brand-type em {
+.brand-wordmark span {
   font-family: var(--serif);
-  font-size: 16px;
+  color: rgba(36, 33, 28, 0.76);
+  font-size: 18px;
   font-style: italic;
 }
 
@@ -1746,23 +1646,27 @@ h3 {
 }
 
 .footer-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
+  display: inline-grid;
   margin-bottom: 16px;
   font-family: var(--serif);
-  font-size: 38px;
+  color: var(--whey);
+  line-height: 0.92;
+}
+
+.footer-brand-wordmark {
+  display: grid;
+}
+
+.footer-brand-wordmark strong {
+  font-size: clamp(39px, 4vw, 56px);
+  font-weight: 600;
+}
+
+.footer-brand-wordmark span {
+  color: var(--yolk);
+  font-size: clamp(24px, 2.6vw, 36px);
+  font-style: italic;
   line-height: 0.95;
-}
-
-.footer-brand-mark {
-  width: 52px;
-  aspect-ratio: 1;
-  flex: 0 0 auto;
-}
-
-.footer-brand em {
-  display: block;
 }
 
 .site-footer p {
@@ -1840,41 +1744,10 @@ h3 {
   }
 }
 
-@keyframes logo-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes logo-wedge-in {
+@keyframes wordmark-rise {
   to {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes logo-curd-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  70% {
-    opacity: 1;
-    transform: scale(1.18);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes logo-field-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.025);
+    transform: translateY(0);
   }
 }
 
@@ -1990,15 +1863,11 @@ h3 {
     min-width: 0;
   }
 
-  .brand-mark {
-    width: 42px;
+  .brand-wordmark strong {
+    font-size: 23px;
   }
 
-  .brand-type span {
-    font-size: 20px;
-  }
-
-  .brand-type em {
+  .brand-wordmark span {
     font-size: 16px;
   }
 
@@ -2167,19 +2036,6 @@ h3 {
   }
 
   .reveal {
-    opacity: 1;
-    transform: none;
-  }
-
-  .logo-mark-animated .logo-orbit,
-  .logo-mark-animated .logo-ridge,
-  .logo-mark-animated .logo-slice,
-  .logo-mark-animated .logo-monogram {
-    stroke-dashoffset: 0;
-  }
-
-  .logo-mark-animated .logo-wedge,
-  .logo-mark-animated .logo-curd {
     opacity: 1;
     transform: none;
   }
