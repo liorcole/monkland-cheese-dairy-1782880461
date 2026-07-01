@@ -8,7 +8,10 @@ initNavigation();
 initHeaderBehavior();
 initReveal();
 initParallax();
+initScrollProgress();
+initPointerSurfaces();
 initMagneticButtons();
+initPageTransitions();
 initFilters();
 initCart();
 initSearch();
@@ -92,6 +95,46 @@ function initParallax() {
   update();
 }
 
+function initScrollProgress() {
+  if (prefersReducedMotion) return;
+  const progress = document.createElement("div");
+  progress.className = "scroll-progress";
+  progress.setAttribute("aria-hidden", "true");
+  document.body.append(progress);
+
+  const update = () => {
+    const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    progress.style.transform = `scaleX(${Math.min(window.scrollY / max, 1)})`;
+  };
+
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
+function initPointerSurfaces() {
+  if (prefersReducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
+  const surfaces = document.querySelectorAll(".product-card, .collection-card, .stage-panel, .subhero-object, .product-orbit");
+  surfaces.forEach((surface) => {
+    surface.addEventListener("pointermove", (event) => {
+      const rect = surface.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      const strength = surface.classList.contains("product-card") || surface.classList.contains("collection-card") ? 3.4 : 2.2;
+      surface.style.setProperty("--pointer-x", x.toFixed(3));
+      surface.style.setProperty("--pointer-y", y.toFixed(3));
+      surface.style.setProperty("--tilt-x", `${(-y * strength).toFixed(2)}deg`);
+      surface.style.setProperty("--tilt-y", `${(x * strength).toFixed(2)}deg`);
+    });
+    surface.addEventListener("pointerleave", () => {
+      surface.style.setProperty("--pointer-x", "0");
+      surface.style.setProperty("--pointer-y", "0");
+      surface.style.setProperty("--tilt-x", "0deg");
+      surface.style.setProperty("--tilt-y", "0deg");
+    });
+  });
+}
+
 function initMagneticButtons() {
   if (prefersReducedMotion) return;
   document.querySelectorAll(".magnetic").forEach((button) => {
@@ -107,6 +150,34 @@ function initMagneticButtons() {
   });
 }
 
+function initPageTransitions() {
+  if (prefersReducedMotion) return;
+  const wipe = document.createElement("div");
+  wipe.className = "page-wipe";
+  wipe.setAttribute("aria-hidden", "true");
+  document.body.append(wipe);
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (link.target && link.target !== "_self") return;
+    if (link.hasAttribute("download")) return;
+
+    const url = new URL(link.href, window.location.href);
+    if (url.origin !== window.location.origin) return;
+    if (url.pathname === window.location.pathname && url.hash) return;
+    if (url.href === window.location.href) return;
+
+    event.preventDefault();
+    wipe.style.setProperty("--wipe-x", `${event.clientX}px`);
+    wipe.style.setProperty("--wipe-y", `${event.clientY}px`);
+    wipe.classList.add("is-active");
+    window.setTimeout(() => {
+      window.location.href = url.href;
+    }, 300);
+  });
+}
+
 function initFilters() {
   const bar = document.querySelector("[data-filter-bar]");
   const grid = document.querySelector("[data-product-grid]");
@@ -118,9 +189,15 @@ function initFilters() {
     const filter = button.dataset.filter;
 
     bar.querySelectorAll("button").forEach((item) => item.classList.toggle("is-active", item === button));
-    grid.querySelectorAll(".product-card").forEach((card) => {
+    grid.querySelectorAll(".product-card").forEach((card, index) => {
       const visible = filter === "all" || card.dataset.category === filter;
       card.classList.toggle("is-hidden", !visible);
+      if (visible) {
+        card.style.transitionDelay = `${Math.min(index, 8) * 28}ms`;
+        window.setTimeout(() => {
+          card.style.transitionDelay = "";
+        }, 420);
+      }
     });
   });
 }
